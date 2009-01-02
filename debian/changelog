@@ -1,3 +1,9 @@
+darcs-to-git (0.1-1~ppa5) intrepid; urgency=low
+
+  * Drop the prefix in the description when calling help2man
+
+ -- Simon Huerlimann <simon.huerlimann@cyt.ch>  Fri, 02 Jan 2009 22:23:01 +0100
+
 darcs-to-git (0.1-1~ppa4) hardy; urgency=low
 
   * Upload for hardy
