@@ -1,6 +1,7 @@
 build: build-man
 
 build-man:
+	chmod 755 darcs-to-git
 	help2man -n "darcs-to-git - converts a Darcs repository into a Git repository" --no-info ./darcs-to-git --output darcs-to-git.1
 
 clean:
