@@ -1,3 +1,10 @@
+darcs-to-git (0.1-1~ppa3) intrepid; urgency=low
+
+  * drop execution patch for help2man
+  * add ruby build depenency to make the script run in help2man
+
+ -- Simon Huerlimann <simon.huerlimann@cyt.ch>  Fri, 02 Jan 2009 21:52:25 +0100
+
 darcs-to-git (0.1-1~ppa2) hardy; urgency=low
 
   * set execution permission in Makefile for script before calling help2man
