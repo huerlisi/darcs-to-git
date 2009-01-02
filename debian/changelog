@@ -1,0 +1,6 @@
+darcs-to-git (0.1-1) unstable; urgency=low
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- Simon Huerlimann <Simon Huerlimann <simon.huerlimann@cyt.ch>>  Fri, 02 Jan 2009 18:36:59 +0100
+
