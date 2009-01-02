@@ -3,11 +3,11 @@ Section: devel
 Priority: extra
 Maintainer: Simon Huerlimann <simon.huerlimann@cyt.ch>
 Build-Depends: debhelper (>= 5)
-Standards-Version: 3.7.2
+Standards-Version: 3.7.3
 
 Package: darcs-to-git
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, ruby
 Description: converts a Darcs repository into a Git repository
  Converts a Darcs repository into a Git repository.  Supports
  incremental updates, i.e., you can pull new patches from the source
