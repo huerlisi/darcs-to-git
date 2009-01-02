@@ -1,0 +1,12 @@
+Source: darcs-to-git
+Section: unknown
+Priority: extra
+Maintainer: Simon Huerlimann <Simon Huerlimann <simon.huerlimann@cyt.ch>>
+Build-Depends: debhelper (>= 5)
+Standards-Version: 3.7.2
+
+Package: darcs-to-git
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: <insert up to 60 chars description>
+ <insert long description, indented with spaces>
