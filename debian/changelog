@@ -1,12 +1,6 @@
-darcs-to-git (0.1-1ubuntu1) intrepid; urgency=low
+darcs-to-git (0.1-1~ppa1) intrepid; urgency=low
 
-  * Use Intrepid as Distribution
+  * Initial release
 
  -- Simon Huerlimann <simon.huerlimann@cyt.ch>  Fri, 02 Jan 2009 20:28:22 +0100
-
-darcs-to-git (0.1-1) unstable; urgency=low
-
-  * Initial release (Closes: #nnnn)
-
- -- Simon Huerlimann <simon.huerlimann@cyt.ch>  Fri, 02 Jan 2009 18:36:59 +0100
 
