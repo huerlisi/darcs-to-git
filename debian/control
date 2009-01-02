@@ -1,12 +1,14 @@
 Source: darcs-to-git
-Section: unknown
+Section: devel
 Priority: extra
-Maintainer: Simon Huerlimann <Simon Huerlimann <simon.huerlimann@cyt.ch>>
+Maintainer: Simon Huerlimann <simon.huerlimann@cyt.ch>
 Build-Depends: debhelper (>= 5)
 Standards-Version: 3.7.2
 
 Package: darcs-to-git
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Description: converts a Darcs repository into a Git repository
+ Converts a Darcs repository into a Git repository.  Supports
+ incremental updates, i.e., you can pull new patches from the source
+ repository or import a large repository in steps.
