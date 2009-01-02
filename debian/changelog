@@ -1,3 +1,9 @@
+darcs-to-git (0.1-1~ppa4) hardy; urgency=low
+
+  * Upload for hardy
+
+ -- Simon Huerlimann <simon.huerlimann@cyt.ch>  Fri, 02 Jan 2009 22:14:57 +0100
+
 darcs-to-git (0.1-1~ppa3) intrepid; urgency=low
 
   * drop execution patch for help2man
