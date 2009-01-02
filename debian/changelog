@@ -1,3 +1,9 @@
+darcs-to-git (0.1-1~ppa6) intrepid; urgency=low
+
+  * Add Vcs Tags to control field, indicating git repositories
+
+ -- Simon Huerlimann <simon.huerlimann@cyt.ch>  Sat, 03 Jan 2009 00:52:57 +0100
+
 darcs-to-git (0.1-1~ppa5) intrepid; urgency=low
 
   * Drop the prefix in the description when calling help2man
