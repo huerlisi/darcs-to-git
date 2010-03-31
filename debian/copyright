@@ -9,7 +9,7 @@ Upstream Author:
 
 Copyright: 
 
-    Copyright (C) 2009 Steve Purcell <http://www.sanityinc.com>
+    Copyright (C) 2007-2010 Steve Purcell <http://www.sanityinc.com>
 
 
 License:
@@ -36,5 +36,5 @@ License:
     OTHER DEALINGS IN THE SOFTWARE.
 
 
-The Debian packaging is (C) 2009, Simon Huerlimann <simon.huerlimann@cyt.ch> and
+The Debian packaging is (C) 2009-2010, Simon Huerlimann <simon.huerlimann@cyt.ch> and
 is licensed under the GPL, see `/usr/share/common-licenses/GPL'.
