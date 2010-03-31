@@ -1,4 +1,22 @@
-darcs-to-git (0.1-1~ppa7) intrepid; urgency=low
+darcs-to-git (0.1.1-1) karmic; urgency=low
+
+  [Jonathon Mah]
+  * Handle conflict backup files with spaces
+  * Add files even if they would be ignored by git
+  * Add borings to the global darcs boring file
+  * Fixed missing backquote in README
+  [Gabriel Kerneis]
+  * Escape dots in tag names
+  * Strip invalid byte sequences from input
+  * Escape stars in tag names
+  [David Caldwell]
+  * Make --clean-commit-messages also remove darcs' ugly "Ignore-This" headers.
+  [Simon Huerlimann]
+  * Implement convertion of remote repositories
+
+ -- Simon Huerlimann (CyT) <simon.huerlimann@cyt.ch>  Thu, 01 Apr 2010 01:14:40 +0200
+
+darcs-to-git (0.1-1ubuntu1) intrepid; urgency=low
 
   * Add Hompage tag to control field
 
