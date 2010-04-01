@@ -3,7 +3,7 @@ Section: devel
 Priority: extra
 Maintainer: Simon Huerlimann <simon.huerlimann@cyt.ch>
 Build-Depends: debhelper (>= 5), help2man
-Standards-Version: 3.7.3
+Standards-Version: 3.8.3
 
 Package: darcs-to-git
 Architecture: any
