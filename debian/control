@@ -9,7 +9,7 @@ Vcs-Git: http://code.cyt.ch/git/darcs-to-git.git
 Homepage: http://www.sanityinc.com/articles/converting-darcs-repositories-to-git
 
 Package: darcs-to-git
-Architecture: any
+Architecture: all
 Depends: ruby, darcs, git-core
 Description: converts a Darcs repository into a Git repository
  Converts a Darcs repository into a Git repository.  Supports
