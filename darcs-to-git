@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 ##
-## Author: Steve Purcell, http://www.sanityinc.com/
+## Copyright (c) 2007-2010 Steve Purcell, http://www.sanityinc.com/
 ## Obtain the latest version of this software here: http://git.sanityinc.com/
 ##
 
@@ -13,6 +13,8 @@ require 'ostruct'
 require 'rexml/document'
 require 'optparse'
 require 'yaml'
+require 'pathname'
+require 'iconv'
 
 # Explicitly setting a time zone would cause darcs to only output in
 # that timezone hence we couldn't get the actual patch TZ
@@ -86,9 +88,9 @@ OPTIONS
   end
   opts.on('--version', "Output version information and exit") do
     puts <<-EOF
-darcs-to-git 0.1
+darcs-to-git 0.1.1
 
-Copyright (c) 2009 Steve Purcell, http://www.sanityinc.com/
+Copyright (c) 2007-2010 Steve Purcell, http://www.sanityinc.com/
 
 License MIT: <http://www.opensource.org/licenses/mit-license.php>
 This is free software: you are free to change and redistribute it.
@@ -126,11 +128,16 @@ def run(*args)
   system(*args) || raise("Failed to run: #{args.inspect}")
 end
 
+# cf. Paul Battley, http://po-ru.com/diary/fixing-invalid-utf-8-in-ruby-revisited/
+def validate_utf8(s)
+  return Iconv.iconv('UTF-8//IGNORE', 'UTF-8', (s + ' ') ).first[0..-2]
+end
+
 def output_of(*args)
   puts "Running: #{args.inspect}"
   output = IO.popen(args.map {|a| "'#{a}'"}.join(' '), 'r') { |p| p.read }
   if $?.exitstatus == 0
-    return output
+    return validate_utf8(output)
   else
     raise "Failed to run: #{args.inspect}"
   end
@@ -253,7 +260,7 @@ class DarcsPatch
     self.name = patch_xml.get_elements('name').first.get_text.value.darcs_unescape rescue 'Unnamed patch'
     self.comment = patch_xml.get_elements('comment').first.get_text.value.darcs_unescape rescue nil
     if (self.is_tag = (self.name =~ /^TAG (.*)/))
-      self.git_tag_name = $1.gsub(/[\s:]+/, '_')
+      self.git_tag_name = $1.gsub(/[\s:.*]+/, '_')
     end
     @git_author_name, @git_author_email = AUTHOR_MAP[author]
   end
@@ -263,10 +270,9 @@ class DarcsPatch
   end
 
   def git_commit_message
-    [ ((inverted ? "UNDO: #{name}" : name) unless name =~ /^\[\w+ @ \d+\]/),
-      comment,
-      ("darcs-hash:#{identifier}" unless OPTIONS[:clean_commit_messages])
-    ].compact.join("\n\n")
+    patch_name = ((inverted ? "UNDO: #{name}" : name) unless name =~ /^\[\w+ @ \d+\]/)
+    OPTIONS[:clean_commit_messages] ? [ patch_name, comment && comment.gsub(/^Ignore-this:.*$/, '')].compact.join("\n") \
+                                    : [ patch_name, comment, "darcs-hash:#{identifier}" ].compact.join("\n\n")
   end
 
   def self.read_from_repo(repo)
@@ -312,7 +318,7 @@ class DarcsPatch
     unless darcs_reports_clean_repo?
       puts "Darcs reports dirty directory: assuming conflict that is fixed by a later patch... reverting"
       run("darcs revert --all")
-      run("find . -name '*-darcs-backup0'|xargs rm -f")  # darcs2 creates these
+      run("find . -name '*-darcs-backup0' -exec rm -f {} \\;")  # darcs2 creates these
     end
     unless darcs_reports_clean_repo?
         system("darcs whatsnew -sl")
@@ -332,7 +338,7 @@ class DarcsPatch
       run("git", "tag", "-a", "-m", git_commit_message, git_tag_name)
     else
       if (new_files = git_new_files).any?
-        run(*(["git", "add"] + new_files))
+        run(*(["git", "add", "-f"] + new_files))
       end
       if git_changed_files.any? || new_files.any?
         run("git", "commit", "-a", "-m", git_commit_message)
@@ -444,7 +450,25 @@ unless File.directory?("_darcs")
 
   run("git", "init")
   File.open(".git/info/exclude", "a") { |f| f.write("_darcs\n.DS_Store\n") }
-  File.open("_darcs/prefs/boring", "a") { |f| f.write("\\.git$\n\\.DS_Store$\n") }
+
+  # Patterns to exclude
+  git_borings = [] << '(^|/)\.git($|/)' << '(^|/)\.DS_Store$'
+  existing_borings = []
+
+  # Check existing global boring patterns
+  global_darcs_dir = Pathname.new("#{ENV['HOME']}/.darcs")
+  global_boring_file = global_darcs_dir + 'boring'
+  if global_boring_file.exist?
+    existing_borings = File.open(global_boring_file, 'r') {|f| f.readlines}.map {|l| l.chomp }
+  else
+    global_darcs_dir.mkdir unless global_darcs_dir.directory?
+  end
+
+  # Add boring patterns to global boring file
+  File.open(global_boring_file, 'a') do |f|
+    (git_borings - existing_borings).each {|b| f.puts b }
+  end
+
   # TODO: migrate darcs borings into git excludes?
 end
 
