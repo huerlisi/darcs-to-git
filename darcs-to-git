@@ -25,11 +25,16 @@ DEFAULT_AUTHOR_MAP_FILE = ".git/darcs_author_substitutions"
 # Usage info and argument parsing
 # -------------------------------------------------------------------------------
 
+def is_local_repo?(repo)
+  FileTest.exists?(repo + '/_darcs')
+end
+
 OPTIONS = { :default_email => nil,
             :list_authors  => false,
             :author_map    => nil,
             :clean_commit_messages => false,
-            :num_patches   => nil }
+            :num_patches   => nil,
+            :allow_remote_repos => false }
 opts = OptionParser.new do |opts|
   opts.banner = <<-end_usage
 Creates git repositories from darcs repositories
@@ -71,6 +76,10 @@ OPTIONS
     abort opts.to_s unless n >= 0
     OPTIONS[:num_patches] = n
   end
+  opts.on('--allow-remote-repos',
+          "Allow remote repositores as source (possibly very slow)") do |m|
+    OPTIONS[:allow_remote_repos] = true
+  end
   opts.on('--clean-commit-messages',
           "Don't note darcs hashes in git commit messages (not recommended)") do |n|
     OPTIONS[:clean_commit_messages] = true
@@ -98,8 +107,14 @@ opts.parse!
 SRCREPO = ARGV[0]
 if SRCREPO.nil?
   abort opts.to_s
-elsif !FileTest.exists?(SRCREPO + '/_darcs')
-  abort "#{SRCREPO} is not a valid local darcs repository"
+elsif !is_local_repo?(SRCREPO) and !OPTIONS[:allow_remote_repos]
+    abort <<-end_msg
+!!! Repository is not local. This is possibly very slow and may
+!!! put unneded load on the original repository server.
+!!! Consider using a local checkout as source and run again.
+!!! Alternatively you may use the --allow-remote-repos command-
+!!! line switch to override this check.
+    end_msg
 end
 
 
@@ -256,7 +271,7 @@ class DarcsPatch
 
   def self.read_from_repo(repo)
     REXML::Document.new(output_of("darcs", "changes", "--reverse",
-                                  "--repodir=#{repo}", "--xml",
+                                  repo_argument(repo), "--xml",
                                   "--summary")).
       get_elements('changelog/patch').map do |p|
       DarcsPatch.new(repo, p)
@@ -390,9 +405,17 @@ DARCS_VERSION = output_of(*%w(darcs -v)).scan(/(\d+)\.(\d+)\.(\d+)/).flatten.map
 
 def darcs2_repo?(repo)
   begin
-    output_of("darcs", "show", "repo", "--repodir=#{repo}") =~ /Format:.*darcs-2/
+    output_of("darcs", "show", "repo", repo_argument(repo)) =~ /Format:.*darcs-2/
   rescue # darcs1 does not have a "show" command, so we get an exception
     false
+  end
+end
+
+def repo_argument(repo)
+  if is_local_repo?(repo)
+    repo_arg = "--repodir=#{repo}"
+  else
+    repo_arg = "--repo=#{repo}"
   end
 end
 
@@ -474,8 +497,8 @@ end
 # -------------------------------------------------------------------------------
 
 # if we didn't pull all patches, then the consistency check would
-# fail, so we simply skip it
-if patches_to_pull.size == patches_available.size
+# fail, so we simply skip it, same goes for non-local repositories
+if (patches_to_pull.size == patches_available.size) and is_repo_local?(SRCREPO)
   puts "Comparing final state with source repo..."
   system("diff", "-ur", "-x", "_darcs", "-x", ".git", ".", SRCREPO)
   if $? != 0
