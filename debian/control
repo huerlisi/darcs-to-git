@@ -3,7 +3,7 @@ Section: devel
 Priority: extra
 Maintainer: Simon Huerlimann <simon.huerlimann@cyt.ch>
 Build-Depends: debhelper (>= 5), help2man, ruby
-Standards-Version: 3.7.3
+Standards-Version: 3.8.3
 Vcs-Browser: http://code.cyt.ch/cgi-bin/gitweb.cgi?p=darcs-to-git.git
 Vcs-Git: http://code.cyt.ch/git/darcs-to-git.git
 Homepage: http://www.sanityinc.com/articles/converting-darcs-repositories-to-git
