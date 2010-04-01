@@ -5,10 +5,12 @@ darcs-to-git (0.1.1-1) karmic; urgency=low
   * Add files even if they would be ignored by git
   * Add borings to the global darcs boring file
   * Fixed missing backquote in README
+
   [Gabriel Kerneis]
   * Escape dots in tag names
   * Strip invalid byte sequences from input
   * Escape stars in tag names
+
   [David Caldwell]
   * Make --clean-commit-messages also remove darcs' ugly "Ignore-This" headers.
 
@@ -18,11 +20,11 @@ darcs-to-git (0.1-1ubuntu1) intrepid; urgency=low
 
   * Use Intrepid as Distribution
 
- -- Simon Huerlimann <simon.huerlimann@cyt.ch>  Fri, 02 Jan 2009 20:28:22 +0100
+ -- Simon Huerlimann (CyT) <simon.huerlimann@cyt.ch>  Fri, 02 Jan 2009 20:28:22 +0100
 
 darcs-to-git (0.1-1) unstable; urgency=low
 
-  * Initial release (Closes: #nnnn)
+  * Initial release
 
- -- Simon Huerlimann <simon.huerlimann@cyt.ch>  Fri, 02 Jan 2009 18:36:59 +0100
+ -- Simon Huerlimann (CyT) <simon.huerlimann@cyt.ch>  Fri, 02 Jan 2009 18:36:59 +0100
 
