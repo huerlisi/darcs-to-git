@@ -1,5 +1,6 @@
 darcs-to-git
-    written by Steve Purcell, some improvements by Thomas Schilling
+    written by Steve Purcell, some improvements by Thomas Schilling,
+    Jonathon Mah
 
 Converts a Darcs repository into a Git repository.  Supports
 incremental updates, i.e., you can pull new patches from the source
@@ -29,7 +30,7 @@ Options
    email address from the darcs patch.  In cases this is not possible,
    a default will be picked by Git.  This is usually the one in
    `~/.gitconfig`.  This option allows you to specify another default
-   (without having to to modify `~/.gitconfig.)
+   (without having to to modify `~/.gitconfig.`)
 
  * `--list-authors`: Outputs a list of authors in the source
    repository and how they will appear in the git repository and
