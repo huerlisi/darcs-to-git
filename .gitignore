@@ -3,3 +3,13 @@
 .#*
 DEADJOE
 *~
+
+# Debian Packaging
+# ================
+build-stamp
+configure-stamp
+darcs-to-git.1
+debian/darcs-to-git.debhelper.log
+debian/darcs-to-git.substvars
+debian/darcs-to-git/
+debian/files
