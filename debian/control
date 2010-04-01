@@ -6,7 +6,7 @@ Build-Depends: debhelper (>= 5), help2man
 Standards-Version: 3.8.3
 
 Package: darcs-to-git
-Architecture: any
+Architecture: all
 Depends: ruby, darcs, git-core
 Description: converts a Darcs repository into a Git repository
  Converts a Darcs repository into a Git repository.  Supports
